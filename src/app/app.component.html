@@ -1,3 +1,7 @@
 <h1>
   {{title}}
 </h1>
+<button md-fab><md-icon>check</md-icon></button>
+<a [routerLink]="['/items']">Items</a>
+<a [routerLink]="['/recipes']">Recipes</a>
+<router-outlet></router-outlet>

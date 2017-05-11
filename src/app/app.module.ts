@@ -1,9 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+
+/* Feature Modules */
+import { MaterialModule } from './material/material.module';
+import { ShopModule } from './shop/shop.module';
+
+import 'hammerjs'; // Some ngMaterial components rely on HammerJS for gestures.
 
 @NgModule({
   declarations: [
@@ -11,8 +18,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    MaterialModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot([
+      { path: '', redirectTo: 'lists', pathMatch: 'full' },
+      { path: '**', redirectTo: 'lists', pathMatch: 'full' }
+    ]),
+    ShopModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
