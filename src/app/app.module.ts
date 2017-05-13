@@ -10,7 +10,8 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
 import { ShopModule } from './shop/shop.module';
 
-import 'hammerjs'; // Some ngMaterial components rely on HammerJS for gestures.
+// Some ngMaterial components rely on HammerJS for gestures.
+import 'hammerjs';
 
 @NgModule({
   declarations: [

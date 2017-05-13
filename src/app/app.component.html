@@ -1,7 +1,19 @@
-<h1>
-  {{title}}
-</h1>
-<button md-fab><md-icon>check</md-icon></button>
-<a [routerLink]="['/items']">Items</a>
-<a [routerLink]="['/recipes']">Recipes</a>
-<router-outlet></router-outlet>
+<md-toolbar class="toolbar" color="primary">
+  <button md-mini-fab (click)="sidenav.toggle()">
+    <md-icon>{{ sidenavOpened ? 'navigate_before' : 'menu' }}</md-icon>
+  </button>
+  {{ sideNavLinks[activeSideNavIndex] | titlecase }}
+</md-toolbar>
+<md-sidenav-container>
+  <md-sidenav #sidenav mode="{{ sideNavMode }}" (open-start)="sidenavOpened=true" (close-start)="sidenavOpened=false">
+    <md-nav-list>
+       <a md-list-item routerLinkActive="active-link" *ngFor="let link of sideNavLinks; let i = index" [routerLink]="['/' + link]">
+         {{ link | titlecase }}
+       </a>
+    </md-nav-list>
+  </md-sidenav>
+
+  <!-- primary content -->
+  <router-outlet></router-outlet>
+</md-sidenav-container>
+
