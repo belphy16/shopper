@@ -1,0 +1,19 @@
+<h1 md-dialog-title>Add Recipes To Cart</h1>
+<md-dialog-content>
+  <md-list>
+    <md-list-item *ngFor="let recipe of recipes;">
+      {{ recipe.name }}
+      {{ recipe.count }}
+      <shared-spacer></shared-spacer>
+      <button md-mini-fab (click)="decrementRecipe(recipe.id)" [disabled]="!recipe.count">
+        <md-icon>remove_shopping_cart</md-icon>
+      </button>
+      <button md-mini-fab (click)="incrementRecipe(recipe.id)">
+        <md-icon>add_shopping_cart</md-icon>
+      </button>
+    </md-list-item>
+  </md-list>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button (click)="closeDialog()">Close</button>
+</md-dialog-actions>

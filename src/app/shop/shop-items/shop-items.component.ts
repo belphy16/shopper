@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
-import { IShopItem } from './shop-item';
-import { ShopItemsService } from './shop-items.service';
+import { AddNewItemComponent } from './dialogs/add-new-item/add-new-item.component';
+
+import { IShopItem } from '../shop-item/shop-item';
 
 @Component({
   templateUrl: './shop-items.component.html',
@@ -11,17 +14,20 @@ export class ShopItemsComponent implements OnInit {
   items: IShopItem[];
   errorMessage: string;
 
-  constructor(private _shopItemsService: ShopItemsService) { }
-
-  ngOnInit() {
-    this._shopItemsService
-      .getItems()
-      .subscribe((items) => this.items = items,
-                  error => this.errorMessage = <any>error);
+  constructor(private _activatedRoute: ActivatedRoute, public _dialogService: MdDialog) {
   }
 
-  showItemId(itemId) {
-    console.log(`item id: ${itemId}`);
+  ngOnInit() {
+    this.items = this._activatedRoute.snapshot.data['items'];
+  }
+
+  openAddItemDialog() {
+    const dialogRef: MdDialogRef<AddNewItemComponent> = this._dialogService.open(AddNewItemComponent, {
+      width: '300px'
+    });
+    dialogRef.afterClosed().subscribe((item: IShopItem) => {
+      this.items.push(item);
+    });
   }
 
 }

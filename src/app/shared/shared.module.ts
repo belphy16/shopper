@@ -1,20 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '@angular/material';
 
-import { SpacerComponent } from './spacer/spacer.component';
+import { SharedSpacerComponent } from './shared-spacer/shared-spacer.component';
+
 import { UtilsService } from './utils.service';
 
-
 @NgModule({
-  imports: [],
+  imports: [
+    CommonModule,
+    MaterialModule,
+  ],
   exports: [
     CommonModule,
+    SharedSpacerComponent,
     FormsModule,
-    SpacerComponent,
+    ReactiveFormsModule,
   ],
   declarations: [
-    SpacerComponent
+    SharedSpacerComponent,
   ],
   providers: [
     UtilsService

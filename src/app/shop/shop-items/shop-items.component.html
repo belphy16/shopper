@@ -1,17 +1,10 @@
-<md-list dense>
-  <md-list-item *ngFor="let item of items;">
+<md-nav-list dense>
+  <a md-list-item *ngFor="let item of items;" [routerLink]="['/items', item.id]">
     {{ item.name | titlecase }}
-    <spacer></spacer>
-    <button md-mini-fab [mdMenuTriggerFor]="menu">
-      <md-icon>more_vert</md-icon>
-    </button>
-    <md-menu #menu="mdMenu">
-      <button md-menu-item (click)="showItemId(item.id)">View</button>
-      <button md-menu-item>Edit</button>
-      <button md-menu-item>Remove</button>
-    </md-menu>
-  </md-list-item>
-</md-list>
-<button md-fab>
+    <shared-spacer></shared-spacer>
+  </a>
+</md-nav-list>
+<button md-fab mdTooltip="Add new item" [mdTooltipPosition]="'before'" (click)="openAddItemDialog()">
   <md-icon>add</md-icon>
 </button>
+{{ addedItem | json }}

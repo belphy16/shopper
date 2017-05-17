@@ -38,7 +38,9 @@ export class AppComponent implements OnInit {
     this._sidenav.toggle(!onMobile);
 
     if (!isResizing) {
-      this.sideNavLinks = routes.map((route: Route) => route.path);
+      this.sideNavLinks = routes
+        .filter((route: Route) => route.path.indexOf('/') === -1 && (route.path !== '404')) // filter out subroutes
+        .map((route: Route) => route.path);
 
       // TODO: debounce
       this._eventManager.addGlobalEventListener('window', 'resize', this.initSideNav.bind(this));

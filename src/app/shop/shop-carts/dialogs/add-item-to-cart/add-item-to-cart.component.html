@@ -1,0 +1,19 @@
+<h1 md-dialog-title>Add Items To Cart</h1>
+<md-dialog-content>
+  <md-list>
+    <md-list-item *ngFor="let item of items;">
+      {{ item.name }}
+      {{ item.count }}
+      <shared-spacer></shared-spacer>
+      <button md-mini-fab (click)="decrementItem(item.id)" [disabled]="!item.count">
+        <md-icon>remove_shopping_cart</md-icon>
+      </button>
+      <button md-mini-fab (click)="incrementItem(item.id)">
+        <md-icon>add_shopping_cart</md-icon>
+      </button>
+    </md-list-item>
+  </md-list>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button (click)="closeDialog()">Close</button>
+</md-dialog-actions>

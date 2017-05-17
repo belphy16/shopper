@@ -1,0 +1,27 @@
+<form [formGroup]="addRecipeForm" autocomplete="off" (ngSubmit)="addRecipe(addRecipeForm.value)" novalidate>
+  <h1 md-dialog-title>Add New Recipe</h1>
+  <md-dialog-content>
+    <md-input-container>
+      <input mdInput type="text" formControlName="recipeName" id="recipeName" placeholder="Name">
+      <md-error *ngIf="addRecipeForm.controls.recipeName?.errors?.recipeExists">{{ addRecipeForm.controls.recipeName?.errors?.recipeExists }}</md-error>
+      <md-error *ngIf="addRecipeForm.controls.recipeName?.errors?.required">Name required</md-error>
+    </md-input-container>
+    <md-list>
+      <md-list-item *ngFor="let item of items;">
+        {{ item.name }}
+        {{ item.count }}
+        <shared-spacer></shared-spacer>
+        <button md-mini-fab type="button" (click)="decrementItem(item)">
+          <md-icon>remove_shopping_cart</md-icon>
+        </button>
+        <button md-mini-fab type="button" (click)="incrementItem(item)">
+          <md-icon>add_shopping_cart</md-icon>
+        </button>
+      </md-list-item>
+    </md-list>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button md-dialog-close type="button">Cancel</button>
+    <button md-raised-button type="submit" [disabled]="addRecipeForm.invalid || !itemSelected()">Save</button>
+  </md-dialog-actions>
+</form>
