@@ -1,7 +1,16 @@
 <h1 md-dialog-title>Add Items To Cart</h1>
 <md-dialog-content>
+  filter by:
+  <md-button-toggle-group #group="mdButtonToggleGroup" (change)="filterById(group.value)">
+    <md-button-toggle value="-1" checked="true">
+      All
+    </md-button-toggle>
+    <md-button-toggle *ngFor="let category of categories;" value="{{ category.id }}">
+      {{ category.name }}
+    </md-button-toggle>
+  </md-button-toggle-group>
   <md-list>
-    <md-list-item *ngFor="let item of items;">
+    <md-list-item *ngFor="let item of filteredItems;">
       {{ item.name }}
       {{ item.count }}
       <shared-spacer></shared-spacer>

@@ -19,13 +19,13 @@ export class ShopRecipesComponent {
   ngOnInit() {
     this._shopRecipesService
       .getItems()
-      .subscribe((items) => this.items = items,
+      .subscribe((items) => this.items = items.sort(this._shopRecipesService.sortAlphabeticallyDesc),
                   error => this.errorMessage = <any>error);
   }
 
   openAddRecipeDialog() {
     const dialogRef: MdDialogRef<AddNewRecipeComponent> = this._dialogService.open(AddNewRecipeComponent, {
-      width: '300px'
+      width: '600px'
     });
     dialogRef.afterClosed().subscribe((item: IShopRecipe) => {
       this.items.push(item);

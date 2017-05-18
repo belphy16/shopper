@@ -4,21 +4,25 @@
 </span>
 <button md-raised-button (click)="toggleShopMode()"> {{isShopping ? 'Edit cart' : 'Shop'}} </button>
 
-<md-list>
-  <md-list-item *ngFor="let item of cartItems;" (click)="toggleAddedToCart(item)">
-    {{ item.name | titlecase }}
-    {{ item.count }}
-    <shared-spacer></shared-spacer>
-    <div *ngIf="!isShopping">
-      <button md-mini-fab (click)="decrementItem(item.id)" [disabled]="!item.count">
-        <md-icon>remove_shopping_cart</md-icon>
-      </button>
-      <button md-mini-fab (click)="incrementItem(item.id)">
-        <md-icon>add_shopping_cart</md-icon>
-      </button>
-    </div>
-    <div *ngIf="isShopping">
-      <md-icon *ngIf="item.addedToCart">{{ 'check' }}</md-icon>
-    </div>
-  </md-list-item>
+<md-list dense>
+  <div *ngFor="let category of categories;">
+    <h3 md-subheader>{{ category.name }}</h3>
+    <md-divider></md-divider>
+    <md-list-item *ngFor="let item of cartItemsPerCategory[category.name];" (click)="toggleAddedToCart(item)">
+      {{ item.name | titlecase }}
+      {{ item.count }}
+      <shared-spacer></shared-spacer>
+      <div *ngIf="!isShopping">
+        <button md-mini-fab (click)="decrementItem(item.id)" [disabled]="!item.count">
+          <md-icon>remove_shopping_cart</md-icon>
+        </button>
+        <button md-mini-fab (click)="incrementItem(item.id)">
+          <md-icon>add_shopping_cart</md-icon>
+        </button>
+      </div>
+      <div *ngIf="isShopping">
+        <md-icon *ngIf="item.addedToCart">{{ 'check' }}</md-icon>
+      </div>
+    </md-list-item>
+  </div>
 </md-list>

@@ -4,6 +4,7 @@ import { Http, Response } from '@angular/http';
 import { Subject, Observable } from 'rxjs/Rx';
 
 import { IShopItem } from '../shop-item/shop-item';
+import { IShopItemCategory } from '../shop-item/shop-item-category'
 
 @Injectable()
 export class ShopItemsService {
@@ -23,13 +24,39 @@ export class ShopItemsService {
       .catch(this.handleError);
   }
 
-  addItem(name: string, category: string): Observable<IShopItem> {
+  removeItem(item: IShopItem): Observable<IShopItem> {
+    console.log('Removing item: ' + item.name);
+    // return this._http.delete(this._url, { params: { itemId: id } })
+    //   .map((response: Response) => <IShopItem[]> response.json().data)
+    //   .catch(this.handleError);
+
+    return this.mockItemObservable(item.name, item.category);
+  }
+
+  editItem(item: IShopItem): Observable<IShopItem> {
+    console.log('editing item: ' + item.name);
+    // return this._http.patch(this._url, item)
+    //   .map((response: Response) => <IShopItem[]> response.json().data)
+    //   .catch(this.handleError);
+
+    return this.mockItemObservable(item.name, item.category);
+  }
+
+  addItem(name: string, category: IShopItemCategory): Observable<IShopItem> {
+    console.log('adding item: ' + name);
+    // return this._http.put(this._url, { name, category })
+    //   .map((response: Response) => <IShopItem[]> response.json().data)
+    //   .catch(this.handleError);
+
+    return this.mockItemObservable(name, category);
+  }
+
+  mockItemObservable(name: string, category: IShopItemCategory) : Observable<IShopItem> {
     const subject = new Subject<IShopItem>();
     const newItem: IShopItem = {
-      "id": 2,
+      "id": 999,
       "name": name,
-      "category": category,
-      "popularity": 0
+      "category": category
     };
 
     setTimeout(() => {
@@ -38,6 +65,22 @@ export class ShopItemsService {
     }, 100);
 
     return subject;
+  }
+
+  getItemCategories(): Observable<IShopItemCategory[]> {
+    return this._http.get(this._url)
+      .map((response: Response) => <IShopItem[]> response.json().data)
+      .map((items: IShopItem[]) => <IShopItemCategory[]> items.map(item => item.category))
+      .map((categories: IShopItemCategory[]) => <IShopItemCategory[]> _.uniqBy(categories, category => category.id))
+      .catch(this.handleError);
+  }
+
+  sortAlphabeticallyDesc(a: IShopItem, b: IShopItem): number {
+    if (a.name.toLowerCase() < b.name.toLowerCase())
+      return -1;
+    if (a.name.toLowerCase() > b.name.toLowerCase())
+      return 1;
+    return 0;
   }
 
   private handleError(error: Response) {

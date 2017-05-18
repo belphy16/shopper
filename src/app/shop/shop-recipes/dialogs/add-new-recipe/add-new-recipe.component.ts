@@ -9,7 +9,6 @@ import { ShopItemsService } from '../../../shop-items/shop-items.service';
 import { ShopRecipesService } from '../../../shop-recipes/shop-recipes.service';
 
 @Component({
-  selector: 'app-add-new-recipe',
   templateUrl: './add-new-recipe.component.html',
   styleUrls: ['./add-new-recipe.component.scss']
 })
@@ -32,7 +31,7 @@ export class AddNewRecipeComponent implements OnInit {
 
     this._shopItemsService
       .getItems()
-      .subscribe((items) => this.items = items.map(item => Object.assign({ count: 0 }, item)),
+      .subscribe((items: IShopItem[]) => this.items = items.map(item => Object.assign({ count: 0 }, item)).sort(this._shopItemsService.sortAlphabeticallyDesc),
       error => this.errorMessage = <any>error);
     this._shopRecipesService
       .getItems()

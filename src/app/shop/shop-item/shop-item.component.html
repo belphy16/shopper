@@ -1,3 +1,28 @@
-<p>
-  {{ item | json }}
-</p>
+<div *ngIf="!isEditing">
+  <h1>Name: {{ activeItem?.name }}</h1>
+  <h4>Category: {{ activeItem?.category.name }}</h4>
+  <button md-raised-button (click)="removeItem()">Remove</button>
+  <button md-raised-button (click)="isEditing = !isediting">Edit</button>
+</div>
+
+<div *ngIf="isEditing">
+  <form [formGroup]="editItemForm" autocomplete="off" (ngSubmit)="editItem(editItemForm.value)" novalidate>
+    <h1 md-dialog-title>Edit Item</h1>
+    <md-input-container>
+      <input mdInput type="text" formControlName="name" id="name" name="name" placeholder="Name" required>
+      <md-error *ngIf="editItemForm.controls.name?.errors?.itemExists">{{ editItemForm.controls.name?.errors?.itemExists }}</md-error>
+      <md-error *ngIf="editItemForm.controls.name?.errors?.required">Name required</md-error>
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" formControlName="category" id="category" placeholder="Category" [mdAutocomplete]="auto" required>
+      <md-error>Category required</md-error>
+    </md-input-container>
+    <md-autocomplete #auto="mdAutocomplete">
+       <md-option *ngFor="let category of filteredCategories | async" [value]="category.name">
+          {{ category.name }}
+       </md-option>
+    </md-autocomplete>
+    <button md-raised-button type="submit" [disabled]="editItemForm.invalid">Save</button>
+  </form>
+</div>
+

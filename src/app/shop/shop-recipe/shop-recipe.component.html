@@ -1,3 +1,38 @@
-<p>
-  {{ item | json }}
-</p>
+<div *ngIf="!isEditing">
+  <h1> Name: {{ activeRecipe?.name }} </h1>
+  <md-list>
+    <md-list-item *ngFor="let item of activeRecipe?.items;">
+      {{ item.name }}
+      <shared-spacer></shared-spacer>
+      count: {{ item.count }}
+    </md-list-item>
+  </md-list>
+  <button md-raised-button (click)="removeRecipe()">Remove</button>
+  <button md-raised-button (click)="isEditing = !isediting">Edit</button>
+</div>
+
+<div *ngIf="isEditing">
+  <form [formGroup]="editRecipeForm" autocomplete="off" (ngSubmit)="editRecipe(editRecipeForm.value)" novalidate>
+    <h1>Edit Recipe</h1>
+    <md-input-container>
+      <input mdInput type="text" formControlName="recipeName" id="recipeName" placeholder="Name">
+      <md-error *ngIf="editRecipeForm.controls.recipeName?.errors?.recipeExists">{{ editRecipeForm.controls.recipeName?.errors?.recipeExists }}</md-error>
+      <md-error *ngIf="editRecipeForm.controls.recipeName?.errors?.required">Name required</md-error>
+    </md-input-container>
+    <md-list>
+      <md-list-item *ngFor="let item of items;">
+        {{ item.name }}
+        {{ item.count }}
+        <shared-spacer></shared-spacer>
+        <button md-mini-fab type="button" (click)="decrementItem(item)">
+          <md-icon>remove_shopping_cart</md-icon>
+        </button>
+        <button md-mini-fab type="button" (click)="incrementItem(item)">
+          <md-icon>add_shopping_cart</md-icon>
+        </button>
+      </md-list-item>
+    </md-list>
+    <button md-raised-button type="submit" [disabled]="editRecipeForm.invalid || !itemSelected()">Save</button>
+  </form>
+</div>
+

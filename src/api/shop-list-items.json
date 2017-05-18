@@ -3,14 +3,34 @@
     {
       "id": 0,
       "name": "paprika",
-      "category": "vegetables",
-      "popularity": 2
+      "category": {
+        "id": 0,
+        "name": "Vegetables"
+      }
     },
     {
       "id": 1,
       "name": "melk",
-      "category": "zuivel",
-      "popularity": 1
+      "category": {
+        "id": 1,
+        "name": "Zuivel"
+      }
+    },
+    {
+      "id": 2,
+      "name": "chips",
+      "category": {
+        "id": 2,
+        "name": "Varia"
+      }
+    },
+    {
+      "id": 3,
+      "name": "WC papier",
+      "category": {
+        "id": 2,
+        "name": "Varia"
+      }
     }
   ]
 }

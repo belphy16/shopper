@@ -3,20 +3,47 @@
     {
       "id": 0,
       "name": "kip tika masale",
-      "popularity": 2,
       "items": [
         {
           "id": 0,
           "name": "paprika",
-          "category": "vegetables",
-          "popularity": 2,
+          "category": {
+            "id": 0,
+            "name": "Vegetables"
+          },
           "count": 3
         },
         {
           "id": 1,
           "name": "melk",
-          "category": "zuivel",
-          "popularity": 1,
+          "category": {
+            "id": 1,
+            "name": "Zuivel"
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Spaghetti",
+      "items": [
+        {
+          "id": 1,
+          "name": "melk",
+          "category": {
+            "id": 1,
+            "name": "Zuivel"
+          },
+          "count": 5
+        },
+        {
+          "id": 2,
+          "name": "chips",
+          "category": {
+            "id": 2,
+            "name": "Varia"
+          },
           "count": 1
         }
       ]

@@ -1,14 +1,19 @@
-<form #addItemForm="ngForm" autocomplete="off" (ngSubmit)="addItem(addItemForm.value)" novalidate>
+<form [formGroup]="addItemForm" autocomplete="off" (ngSubmit)="addItem(addItemForm.value)" novalidate>
   <h1 md-dialog-title>Add New Item</h1>
   <md-dialog-content>
     <md-input-container>
-      <input mdInput type="text" (ngModel)="name" id="name" name="name" placeholder="Name" required>
+      <input mdInput type="text" formControlName="name" id="name" name="name" placeholder="Name" required>
       <md-error>Name required</md-error>
     </md-input-container>
     <md-input-container>
-      <input mdInput type="text" (ngModel)="category" id="category" name="category" placeholder="Category" required>
+      <input mdInput type="text" formControlName="category" id="category" placeholder="Category" [mdAutocomplete]="auto" required>
       <md-error>Category required</md-error>
     </md-input-container>
+    <md-autocomplete #auto="mdAutocomplete">
+       <md-option *ngFor="let category of filteredCategories | async" [value]="category.name">
+          {{ category.name }}
+       </md-option>
+    </md-autocomplete>
   </md-dialog-content>
   <md-dialog-actions>
     <button md-button md-dialog-close type="button">Cancel</button>

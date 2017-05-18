@@ -26,20 +26,51 @@ export class ShopRecipesService {
     }
 
     addItem(name: string, items: IShopItem[]): Observable<IShopRecipe> {
+      console.log('adding recipe: ' + name);
+
+      return this.mockRecipeObservable(name, items);
+    }
+
+    removeItem(recipe: IShopRecipe): Observable<IShopRecipe> {
+      console.log('removing recipe: ' + recipe.name);
+      // return this._http.delete(this._url, { params: { itemId: id } })
+      //   .map((response: Response) => <IShopItem[]> response.json().data)
+      //   .catch(this.handleError);
+
+      return this.mockRecipeObservable(recipe.name, recipe.items);
+    }
+
+    editItem(recipe: IShopRecipe): Observable<IShopRecipe> {
+      console.log('editing recipe: ' + recipe.name);
+      // return this._http.patch(this._url, item)
+      //   .map((response: Response) => <IShopItem[]> response.json().data)
+      //   .catch(this.handleError);
+
+      return this.mockRecipeObservable(recipe.name, recipe.items);
+    }
+
+    mockRecipeObservable(name: string, items: IShopItem[]) : Observable<IShopRecipe> {
       const subject = new Subject<IShopRecipe>();
-      const newItem: IShopRecipe = {
-        "id": 0,
+      const newRecipe: IShopRecipe = {
+        "id": 999,
         "name": name,
-        "popularity": 0,
         "items": items
       };
 
       setTimeout(() => {
-        subject.next(newItem);
+        subject.next(newRecipe);
         subject.complete();
       }, 100);
 
       return subject;
+    }
+
+    sortAlphabeticallyDesc(a: IShopRecipe, b: IShopRecipe): number {
+      if (a.name.toLowerCase() < b.name.toLowerCase())
+        return -1;
+      if (a.name.toLowerCase() > b.name.toLowerCase())
+        return 1;
+      return 0;
     }
 
     private handleError(error: Response) {
