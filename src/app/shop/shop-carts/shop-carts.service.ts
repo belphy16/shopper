@@ -25,7 +25,7 @@ export class ShopCartsService {
       }
     });
 
-    return this.cartItems
+    return this.cartItems;
   }
 
   incrementItem(itemId: number) {

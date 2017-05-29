@@ -21,7 +21,7 @@ export class ShopRecipeComponent implements OnInit {
   items: IShopItem[] = [];
   editRecipeForm: FormGroup;
   errorMessage: string;
-  isEditing: boolean = false;
+  isEditing = false;
 
   constructor(private _router: Router,
                 private _route: ActivatedRoute,
@@ -33,7 +33,7 @@ export class ShopRecipeComponent implements OnInit {
     this._shopRecipesService
       .getItem(+this._route.snapshot.params['id'])
       .subscribe((item) => {
-        this.activeRecipe = item
+        this.activeRecipe = item;
 
         this.editRecipeForm = new FormGroup({
           recipeName: new FormControl(this.activeRecipe.name, [Validators.required, this.recipeExists.bind(this)])

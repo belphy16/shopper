@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { IShopItem } from '../../../shop-item/shop-item';
 import { IShopItemCategory } from '../../../shop-item/shop-item-category';
@@ -17,6 +17,7 @@ import { ShopItemsService } from '../../../shop-items/shop-items.service';
 export class AddNewItemComponent implements OnInit {
   nameFormControl: FormControl = new FormControl();
   categoryFormControl: FormControl = new FormControl();
+  items: IShopItem[] = [];
   addItemForm: FormGroup;
   categories: IShopItemCategory[];
   filteredCategories: Observable<IShopItemCategory[]>;
@@ -24,6 +25,12 @@ export class AddNewItemComponent implements OnInit {
   constructor(public _dialogRef: MdDialogRef<AddNewItemComponent>, private _shopItemsService: ShopItemsService) { }
 
   ngOnInit() {
+    this._shopItemsService
+      .getItems()
+      .subscribe((items: IShopItem[]) => {
+        this.items = items;
+      });
+
     this._shopItemsService
       .getItemCategories()
       .subscribe(categories => this.categories = categories);
@@ -37,21 +44,22 @@ export class AddNewItemComponent implements OnInit {
        .startWith(null)
        .map(val => {
          if (val) {
-           return this.filter(val)
+           return this.filter(val);
          } else if (this.categories) {
-           return this.categories.slice()
+           return this.categories.slice();
          }
        });
   }
 
   addItem(formValues) {
     let category: IShopItemCategory = this.categories.find((category: IShopItemCategory) => formValues.category.trim().toLowerCase() === category.name.trim().toLowerCase());
+    console.log(category);
 
     if (!category) {
       category = {
         id: Math.max(...this.categories.map((category: IShopItemCategory) => category.id)) + 1,
         name: formValues.category
-      }
+      };
     }
     this._shopItemsService
       .addItem(formValues.name, category)

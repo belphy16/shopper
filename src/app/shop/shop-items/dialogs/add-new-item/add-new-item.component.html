@@ -2,8 +2,9 @@
   <h1 md-dialog-title>Add New Item</h1>
   <md-dialog-content>
     <md-input-container>
-      <input mdInput type="text" formControlName="name" id="name" name="name" placeholder="Name" required>
-      <md-error>Name required</md-error>
+      <input mdInput type="text" formControlName="name" id="name" name="name" placeholder="Name" required [validate-item-exists]="items">
+      <md-error *ngIf="addItemForm.controls.name?.errors?.itemExists">{{ addItemForm.controls.name?.errors?.itemExists }}</md-error>
+      <md-error *ngIf="addItemForm.controls.name?.errors?.required">Name required</md-error>
     </md-input-container>
     <md-input-container>
       <input mdInput type="text" formControlName="category" id="category" placeholder="Category" [mdAutocomplete]="auto" required>

@@ -8,7 +8,7 @@ export class ShopItemsResolverService implements Resolve<any> {
   constructor(private _shopItemsService: ShopItemsService) { }
 
   resolve() {
-    return this._shopItemsService.getItems().map(items => items);
+    return this._shopItemsService.getItems();
   }
 
 }

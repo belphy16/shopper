@@ -28,7 +28,9 @@ export class ShopRecipesComponent {
       width: '600px'
     });
     dialogRef.afterClosed().subscribe((item: IShopRecipe) => {
-      this.items.push(item);
+      if (item) {
+        this.items.push(item);
+      }
     });
   }
 }

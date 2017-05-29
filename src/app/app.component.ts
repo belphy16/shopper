@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from "@angular/core";
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { EventManager } from '@angular/platform-browser';
 import { Router, Route, NavigationStart } from '@angular/router';
 import { MdSidenav } from '@angular/material';
@@ -12,12 +12,11 @@ import { UtilsService } from './shared/utils.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  @ViewChild(MdSidenav)
-  private _sidenav: MdSidenav;
+  @ViewChild('sidenav') _sidenav: MdSidenav;
   sideNavMode: string;
   sidenavOpened: boolean;
   sideNavLinks: string[];
-  activeSideNavIndex: number = 0;
+  activeSideNavIndex = 0;
 
   constructor(private _router: Router,
                 private _eventManager: EventManager,

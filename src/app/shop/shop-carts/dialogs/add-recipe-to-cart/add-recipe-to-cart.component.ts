@@ -29,7 +29,7 @@ export class AddRecipeToCartComponent implements OnInit {
       .reduce((acc, curr) => {
         curr.items.map(item => {
           return item;
-        })
+        });
         acc.push(...curr.items);
         return acc;
       }, []);

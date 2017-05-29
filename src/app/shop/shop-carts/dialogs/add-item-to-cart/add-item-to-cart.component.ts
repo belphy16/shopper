@@ -45,7 +45,7 @@ export class AddItemToCartComponent implements OnInit {
   }
 
   filterById(categoryIdAsString: string) {
-    const categoryId:number = parseInt(categoryIdAsString, 10);
+    const categoryId: number = parseInt(categoryIdAsString, 10);
     if ( categoryId === -1) { // all
       this.filteredItems = this.items.slice(0).sort(this._shopItemsService.sortAlphabeticallyDesc);
     } else {

@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { 404Component } from './404.component';
+import { 404; Component; } from; './404.component';
 
 describe('404Component', () => {
-  let component: 404Component;
-  let fixture: ComponentFixture<404Component>;
+  let component: 404 Component;
+  let fixture: ComponentFixture<404 Component > ;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -1,0 +1,19 @@
+{
+  "name": "Shopper_API",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "./node_modules/karma/bin/karma start"
+  },
+  "author": "Frederic Aerts <info@fredericaerts.com> (http://fredericaerts.com/)",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
+    "mongoose": "^4.8.1",
+    "morgan": "^1.7.0",
+    "cors": "2.8.1"
+  }
+}

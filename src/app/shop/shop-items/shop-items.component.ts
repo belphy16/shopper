@@ -28,7 +28,10 @@ export class ShopItemsComponent implements OnInit {
       width: '600px'
     });
     dialogRef.afterClosed().subscribe((item: IShopItem) => {
-      this.items.push(item);
+      if (item) {
+        console.log(item);
+        this.items.push(item);
+      }
     });
   }
 

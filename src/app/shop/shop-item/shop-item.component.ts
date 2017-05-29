@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef } from '@angular/material';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { IShopItem } from './shop-item';
 import { IShopItemCategory } from '../shop-item/shop-item-category';
@@ -24,7 +24,7 @@ export class ShopItemComponent implements OnInit {
   items: IShopItem[] = [];
   editItemForm: FormGroup;
   errorMessage: string;
-  isEditing: boolean = false;
+  isEditing = false;
   categories: IShopItemCategory[];
   filteredCategories: Observable<IShopItemCategory[]>;
 
@@ -60,13 +60,13 @@ export class ShopItemComponent implements OnInit {
            .startWith(null)
            .map(val => {
              if (val) {
-               return this.filter(val)
+               return this.filter(val);
              } else if (this.categories) {
                return this.categories.filter(category => category.id === this.activeItem.category.id);
              }
            });
       },
-      error => this.errorMessage = <any>error);;
+      error => this.errorMessage = <any>error); ;
   }
 
   itemExists(control: FormControl): { [ key: string ]: any } {

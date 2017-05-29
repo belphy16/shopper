@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 
 import { AddItemToCartComponent } from './dialogs/add-item-to-cart/add-item-to-cart.component';
@@ -7,6 +7,7 @@ import { AddRecipeToCartComponent } from './dialogs/add-recipe-to-cart/add-recip
 import { IShopItem } from '../shop-item/shop-item';
 import { IShopItemCategory } from '../shop-item/shop-item-category';
 import { ShopCartsService } from '../shop-carts/shop-carts.service';
+import { LODASH_TOKEN } from '../../shared/lodash.service';
 
 @Component({
   templateUrl: './shop-carts.component.html',
@@ -16,9 +17,11 @@ export class ShopCartsComponent implements OnInit {
   cartItems: IShopItem[];
   categories: IShopItemCategory[];
   cartItemsPerCategory: Object;
-  isShopping: boolean = false;
+  isShopping = false;
 
-  constructor(public _dialogService: MdDialog, private _shopCartsService: ShopCartsService) { }
+  constructor(public _dialogService: MdDialog,
+              @Inject(LODASH_TOKEN) private _: any,
+              private _shopCartsService: ShopCartsService) { }
 
   ngOnInit() {
     this.cartItems = this._shopCartsService.getCartItems();
@@ -27,6 +30,8 @@ export class ShopCartsComponent implements OnInit {
   toggleShopMode() {
     this.isShopping = !this.isShopping;
   }
+
+
 
   openItemsDialog() {
     const dialogRef: MdDialogRef<AddItemToCartComponent> = this._dialogService.open(AddItemToCartComponent, {
@@ -68,9 +73,10 @@ export class ShopCartsComponent implements OnInit {
   }
 
   sortByCategory(items: IShopItem[]) {
-    const categoriesUnsorted = _.uniqBy(this.cartItems, item => item.category.id).map(item => item.category);
-    this.categories = _.sortBy(categoriesUnsorted, [(category: IShopItemCategory) => category.name.toLowerCase()]);
-    this.cartItemsPerCategory = _.groupBy(this.cartItems, 'category.name');
+    console.log(this._.uniqBy(this.cartItems, item => item.category.id).map(item => item.category));
+    const categoriesUnsorted = this._.uniqBy(this.cartItems, item => item.category.id).map(item => item.category);
+    this.categories = this._.sortBy(categoriesUnsorted, [(category: IShopItemCategory) => category.name.toLowerCase()]);
+    this.cartItemsPerCategory = this._.groupBy(this.cartItems, 'category.name');
   }
 
 }

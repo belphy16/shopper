@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 
-import { ShopItemsService } from '../shop-items/shop-items.service'
+import { ShopItemComponent } from '../shop-item/shop-item.component';
+import { ShopItemsService } from '../shop-items/shop-items.service';
 
 @Injectable()
 export class ShopItemRouteActivatorService implements CanActivate {
@@ -19,4 +20,11 @@ export class ShopItemRouteActivatorService implements CanActivate {
         return !!item;
       });
   }
+}
+
+export function checkRemovingItem(component: ShopItemComponent) {
+  if (!component.itemToBeRemoved) {
+    return true;
+  }
+  return component.openRemoveConfirmationDialog().afterClosed();
 }

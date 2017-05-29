@@ -1,4 +1,4 @@
-import { IShopItemCategory } from '../shop-item/shop-item-category'
+import { IShopItemCategory } from '../shop-item/shop-item-category';
 
 export interface IShopItem {
   id: number;
