@@ -25,7 +25,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // app.use(express.static('./public'));
-app.use('/api', require('./server/routes/data-routes')());
+app.use('/api', require('./server/routes/api-routes')());
 
 // app.get('*', (req, res) => {
 //   res.render('index');
