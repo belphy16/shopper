@@ -57,10 +57,12 @@ export class AddNewRecipeComponent implements OnInit {
   }
 
   addRecipe(formValues) {
+    let recipeId = Math.max(...this.recipes.map((recipe: IShopRecipe) => recipe.id)) + 1;
+    recipeId = recipeId < 0 ? 1 : recipeId;
     const items: IShopItem[] = this.items.filter(item => item.count);
 
     this._shopRecipesService
-      .addItem(formValues.recipeName, items)
+      .addItem(recipeId, formValues.recipeName, items)
       .subscribe((recipe: IShopRecipe) => this._dialogRef.close(recipe));
   }
 

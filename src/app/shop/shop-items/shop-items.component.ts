@@ -29,7 +29,6 @@ export class ShopItemsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((item: IShopItem) => {
       if (item) {
-        console.log(item);
         this.items.push(item);
       }
     });

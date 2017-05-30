@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 import { ConstantsService } from '../constants.service';
 import { IShopItem } from '../shop-item/shop-item';
@@ -10,14 +9,13 @@ import { IShopItemCategory } from '../shop-item/shop-item-category';
 
 @Injectable()
 export class ShopItemsService {
-  private _url = `${this._constantsService.apiUrl}/shop-list-items.json`;
-  private _urlPost = `${this._constantsService.apiUrlPost}/items`;
+  private _url = `${this._constantsService.apiUrlPost}/items`;
 
   constructor(private _constantsService: ConstantsService,
               private _http: Http) { }
 
   getItems(): Observable<IShopItem[]> {
-    return this._http.get(this._urlPost)
+    return this._http.get(this._url)
       .map((response: Response) => <IShopItem[]> response.json())
       .catch(this.handleError);
   }
@@ -28,57 +26,30 @@ export class ShopItemsService {
       .catch(this.handleError);
   }
 
-  removeItem(item: IShopItem): Observable<IShopItem> {
-    console.log('Removing item: ' + item.name);
-    // return this._http.delete(this._url, { params: { itemId: item.id } })
-    //   .map((response: Response) => <IShopItem[]> response.json().data)
-    //   .catch(this.handleError);
-
-    return this.mockItemObservable(item.name, item.category);
+  removeItem(item: IShopItem): Observable<number> {
+    return this._http.delete(`${this._url}/${item.id}`)
+      .map((response: Response) => <number> response.json().id)
+      .catch(this.handleError);
   }
 
   editItem(item: IShopItem): Observable<IShopItem> {
-    console.log('editing item: ' + item.name);
-    // const headers = new Headers({'Content-Type': 'application/json'});
-    // const options = new RequestOptions({ headers })
-    // return this._http.put(this._url, item, options)
-    //   .map((response: Response) => <IShopItem[]> response.json().data)
-    //   .catch(this.handleError);
-
-    return this.mockItemObservable(item.name, item.category);
-  }
-
-  addItem(name: string, category: IShopItemCategory): Observable<IShopItem> {
-    console.log('adding item: ' + name);
-
     const headers = new Headers({'Content-Type': 'application/json'});
     const options = new RequestOptions({ headers })
-    return this._http.post(this._urlPost, { name, category }, options)
+    return this._http.put(`${this._url}/${item.id}`, item, options)
       .map((response: Response) => <IShopItem[]> response.json())
       .catch(this.handleError);
-
-    // return this.mockItemObservable(name, category);
   }
 
-  mockItemObservable(name: string, category: IShopItemCategory) : Observable<IShopItem> {
-    const subject = new Subject<IShopItem>();
-    const newItem: IShopItem = {
-      'id': 999,
-      'name': name,
-      'category': category
-    };
-
-    setTimeout(() => {
-      subject.next(newItem);
-      subject.complete();
-    }, 100);
-
-    return subject;
+  addItem(id: number, name: string, category: IShopItemCategory): Observable<IShopItem> {
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({ headers })
+    return this._http.post(this._url, { id, name, category }, options)
+      .map((response: Response) => <IShopItem[]> response.json())
+      .catch(this.handleError);
   }
 
   getItemCategories(): Observable<IShopItemCategory[]> {
-    return this._http.get(this._url)
-      .map((response: Response) => <IShopItem[]> response.json().data)
+    return this.getItems()
       .map((items: IShopItem[]) => <IShopItemCategory[]> items.map(item => item.category))
       .map((categories: IShopItemCategory[]) => <IShopItemCategory[]> _.uniqBy(categories, category => category.id))
       .catch(this.handleError);

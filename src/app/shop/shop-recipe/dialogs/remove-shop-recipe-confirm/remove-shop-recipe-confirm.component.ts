@@ -20,8 +20,8 @@ export class RemoveShopRecipeConfirmComponent implements OnInit {
   }
 
   confirm() {
-    this._shopRecipesService.removeItem(this.data.activeRecipe);
-    this._dialogRef.close(true);
+    this._shopRecipesService.removeItem(this.data.activeRecipe)
+    .subscribe((recipeId: number) => this._dialogRef.close(true));
   }
 
   cancel() {

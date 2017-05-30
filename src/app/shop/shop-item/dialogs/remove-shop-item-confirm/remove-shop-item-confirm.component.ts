@@ -20,8 +20,8 @@ export class RemoveShopItemConfirmComponent implements OnInit {
   }
 
   confirm() {
-    this._shopItemsService.removeItem(this.data.activeItem);
-    this._dialogRef.close(true);
+    this._shopItemsService.removeItem(this.data.activeItem)
+    .subscribe((itemId: number) => this._dialogRef.close(true));
   }
 
   cancel() {

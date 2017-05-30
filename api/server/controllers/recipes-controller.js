@@ -1,8 +1,8 @@
-const itemsController = (ItemsModel) => {
+const recipesController = (RecipesModel) => {
   const get = (req, res) => {
-    ItemsModel.find().exec()
-    .then((items) => {
-      res.json(items);
+    RecipesModel.find().exec()
+    .then((recipes) => {
+      res.json(recipes);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -10,25 +10,25 @@ const itemsController = (ItemsModel) => {
   };
 
   const post = (req, res) => {
-    if (!validateItem(req.body)) {
-      res.send('Please provide a valid item');
+    if (!validateRecipe(req.body)) {
+      res.send('Please provide a valid recipe');
     } else {
-      ItemsModel.findOne({
+      RecipesModel.findOne({
         id: req.body.id,
       })
       .exec()
-      .then((item) => {
-        if (item) {
-          res.send('Item already exists');
+      .then((recipe) => {
+        if (recipe) {
+          res.send('Recipe already exists');
         } else {
-          const itemEntry = new ItemsModel(req.body);
-          itemEntry.save((err) => {
+          const recipeEntry = new RecipesModel(req.body);
+          recipeEntry.save((err) => {
             if (err) {
               console.error(err);
             }
           })
-          .then((item) => {
-            res.json(item);
+          .then((recipe) => {
+            res.json(recipe);
           })
           .catch((err) => {
             res.status(500).send(err);
@@ -39,10 +39,10 @@ const itemsController = (ItemsModel) => {
   };
 
   const put = (req, res) => {
-    if (!validateItem(req.body)) {
-      res.send('Please provide a valid item');
+    if (!validateRecipe(req.body)) {
+      res.send('Please provide a valid recipe');
     } else {
-      ItemsModel.where({
+      RecipesModel.where({
         id: req.params.id,
       })
       .update(req.body, (err) => {
@@ -60,13 +60,13 @@ const itemsController = (ItemsModel) => {
     const params = {
       id: parseInt(req.params.id, 10)
     }
-    ItemsModel.remove(params, () => (err) => {
+    RecipesModel.remove(params, () => (err) => {
       if (err) {
         console.error(err);
       }
     })
-    .then((item) => {
-      res.json({ id: item.id });
+    .then((recipe) => {
+      res.json({ id: recipe.id });
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -77,7 +77,7 @@ const itemsController = (ItemsModel) => {
   /*  Helper Functions
       ================================================================= */
 
-  function validateItem(item) {
+  function validateRecipe(recipe) {
     return true;
   }
 
@@ -89,4 +89,4 @@ const itemsController = (ItemsModel) => {
   };
 };
 
-module.exports = itemsController;
+module.exports = recipesController;

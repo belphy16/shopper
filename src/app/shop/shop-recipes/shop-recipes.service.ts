@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 import { ConstantsService } from '../constants.service';
 import { IShopRecipe } from '../shop-recipe/shop-recipe';
@@ -10,15 +9,17 @@ import { IShopItem } from '../shop-item/shop-item';
 
 @Injectable()
 export class ShopRecipesService {
-  private _url = `${this._constantsService.apiUrl}/shop-list-recipes.json`;
+  // private _url = `${this._constantsService.apiUrl}/shop-list-recipes.json`;
+  private _url = `${this._constantsService.apiUrlPost}/recipes`;
 
     constructor(private _constantsService: ConstantsService,
               private _http: Http) { }
 
+
     getItems(): Observable<IShopRecipe[]> {
-        return this._http.get(this._url)
-            .map((response: Response) => <IShopRecipe[]> response.json().data)
-            .catch(this.handleError);
+      return this._http.get(this._url)
+        .map((response: Response) => <IShopRecipe[]> response.json())
+        .catch(this.handleError);
     }
 
     getItem(id: number): Observable<IShopRecipe> {
@@ -27,51 +28,26 @@ export class ShopRecipesService {
             .catch(this.handleError);
     }
 
-    addItem(name: string, items: IShopItem[]): Observable<IShopRecipe> {
-      console.log('adding recipe: ' + name);
-      // const headers = new Headers({'Content-Type': 'application/json'});
-      // const options = new RequestOptions({ headers })
-      // return this._http.post(this._url, { name, items }, options)
-      //   .map((response: Response) => <IShopRecipe[]> response.json().data)
-      //   .catch(this.handleError);
-
-      return this.mockRecipeObservable(name, items);
-    }
-
-    removeItem(recipe: IShopRecipe): Observable<IShopRecipe> {
-      console.log('removing recipe: ' + recipe.name);
-      // return this._http.delete(this._url, { params: { itemId: recipe.id } })
-      //   .map((response: Response) => <IShopItem[]> response.json().data)
-      //   .catch(this.handleError);
-
-      return this.mockRecipeObservable(recipe.name, recipe.items);
+    removeItem(recipe: IShopRecipe): Observable<number> {
+      return this._http.delete(`${this._url}/${recipe.id}`)
+        .map((response: Response) => <number> response.json().id)
+        .catch(this.handleError);
     }
 
     editItem(recipe: IShopRecipe): Observable<IShopRecipe> {
-      console.log('editing recipe: ' + recipe.name);
-      // const headers = new Headers({'Content-Type': 'application/json'});
-      // const options = new RequestOptions({ headers })
-      // return this._http.put(this._url, recipe, options)
-      //   .map((response: Response) => <IShopRecipe[]> response.json().data)
-      //   .catch(this.handleError);
-
-      return this.mockRecipeObservable(recipe.name, recipe.items);
+      const headers = new Headers({'Content-Type': 'application/json'});
+      const options = new RequestOptions({ headers })
+      return this._http.put(`${this._url}/${recipe.id}`, recipe, options)
+        .map((response: Response) => <IShopRecipe[]> response.json())
+        .catch(this.handleError);
     }
 
-    mockRecipeObservable(name: string, items: IShopItem[]) : Observable<IShopRecipe> {
-      const subject = new Subject<IShopRecipe>();
-      const newRecipe: IShopRecipe = {
-        'id': 999,
-        'name': name,
-        'items': items
-      };
-
-      setTimeout(() => {
-        subject.next(newRecipe);
-        subject.complete();
-      }, 100);
-
-      return subject;
+    addItem(id: number, name: string, items: IShopItem[]): Observable<IShopRecipe> {
+      const headers = new Headers({'Content-Type': 'application/json'});
+      const options = new RequestOptions({ headers })
+      return this._http.post(this._url, { id, name, items }, options)
+        .map((response: Response) => <IShopRecipe[]> response.json())
+        .catch(this.handleError);
     }
 
     sortAlphabeticallyDesc(a: IShopRecipe, b: IShopRecipe): number {

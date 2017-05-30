@@ -52,17 +52,20 @@ export class AddNewItemComponent implements OnInit {
   }
 
   addItem(formValues) {
+    let itemId = Math.max(...this.items.map((item: IShopItem) => item.id)) + 1;
+    itemId = itemId < 0 ? 1 : itemId;
     let category: IShopItemCategory = this.categories.find((category: IShopItemCategory) => formValues.category.trim().toLowerCase() === category.name.trim().toLowerCase());
-    console.log(category);
 
     if (!category) {
+      let categoryId = Math.max(...this.categories.map((category: IShopItemCategory) => category.id)) + 1;
+      categoryId = categoryId < 0 ? 1 : categoryId;
       category = {
-        id: Math.max(...this.categories.map((category: IShopItemCategory) => category.id)) + 1,
+        id: categoryId,
         name: formValues.category
       };
     }
     this._shopItemsService
-      .addItem(formValues.name, category)
+      .addItem(itemId, formValues.name, category)
       .subscribe((item: IShopItem) => this._dialogRef.close(item));
   }
 

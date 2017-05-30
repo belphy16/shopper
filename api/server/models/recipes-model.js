@@ -3,15 +3,20 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // http://mongoosejs.com/docs/promises.html
 const Schema = mongoose.Schema;
 
-/*  Schema for 'itemsmodels' collection
+/*  Schema for 'recipesmodels' collection
     ============================================================ */
-const itemSchema = new Schema({
+const recipeSchema = new Schema({
   id: Number,
   name: String,
-  category: {
+  items: [{
     id: Number,
     name: String,
-  },
+    category: {
+      id: Number,
+      name: String,
+    },
+    count: Number
+  }],
 });
 
-module.exports = mongoose.model('Itemsmodel', itemSchema);
+module.exports = mongoose.model('Recipesmodel', recipeSchema);
