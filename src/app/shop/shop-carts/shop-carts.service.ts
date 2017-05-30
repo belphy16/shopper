@@ -1,46 +1,45 @@
 import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
+import { Observable } from 'rxjs/Observable';
+
+import { ConstantsService } from '../constants.service';
 import { IShopItem } from '../shop-item/shop-item';
 
 @Injectable()
 export class ShopCartsService {
-  cartItems: IShopItem[] = [];
+  private _url = `${this._constantsService.apiUrlPost}/cart`;
 
-  constructor() { }
+  constructor(private _constantsService: ConstantsService,
+              private _http: Http) { }
 
-  getCartItems() {
-    return this.cartItems;
+
+  getCartItems(): Observable<IShopItem[]> {
+    return this._http.get(this._url)
+      .map((response: Response) => <IShopItem[]> response.json())
+      .catch(this.handleError);
   }
 
-  addCartItems(items) {
-    if (!items) return this.cartItems;
-
-    items.forEach(item => {
-      const cartItem = this.cartItems.find(cartItem => cartItem.id === item.id);
-
-      if (cartItem) {
-        cartItem.count += item.count;
-      } else {
-        this.cartItems.push(item);
-      }
-    });
-
-    return this.cartItems;
+  saveCartItems(items) {
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({ headers })
+    return this._http.post(this._url, items, options)
+      .map((response: Response) => {
+        return <IShopItem[]> response.json()
+      })
+      .catch(this.handleError);
   }
 
-  incrementItem(itemId: number) {
-    this.cartItems.find(item => item.id === itemId).count += 1;
+  clearCartItems(): Observable<number> {
+    return this._http.delete(this._url)
+      .map((response: Response) => <number> response.status)
+      .catch(this.handleError);
   }
 
-  decrementItem(itemId: number) {
-    const itemIndex = this.cartItems.findIndex(item => item.id === itemId);
-    const item = this.cartItems[itemIndex];
-
-    if (item.count > 1) {
-      item.count -= 1;
-    } else {
-      this.cartItems.splice(itemIndex, 1);
-    }
+  private handleError(error: Response) {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    console.error(error);
+    return Observable.throw(error.json().error || 'Server error');
   }
-
 }

@@ -25,6 +25,7 @@ import { RemoveShopRecipeConfirmComponent } from './shop-recipe/dialogs/remove-s
 import { RemoveShopItemConfirmComponent } from './shop-item/dialogs/remove-shop-item-confirm/remove-shop-item-confirm.component';
 import { ShopItemRouteActivatorService, checkRemovingItem } from './shop-item/shop-item-route-activator.service';
 import { ShopRecipeRouteActivatorService, checkRemovingRecipe } from './shop-recipe/shop-recipe-route-activator.service';
+import { ClearCartComponent } from './shop-carts/dialogs/clear-cart/clear-cart.component';
 
 const routes: Routes = [
   { path: 'carts', component: ShopCartsComponent },
@@ -55,6 +56,7 @@ const routes: Routes = [
     PageNotFoundComponent,
     RemoveShopRecipeConfirmComponent,
     RemoveShopItemConfirmComponent,
+    ClearCartComponent,
   ],
   providers: [
     ConstantsService,
@@ -83,6 +85,7 @@ const routes: Routes = [
     AddNewRecipeComponent,
     RemoveShopRecipeConfirmComponent,
     RemoveShopItemConfirmComponent,
+    ClearCartComponent,
   ]
 })
 export class ShopModule { }

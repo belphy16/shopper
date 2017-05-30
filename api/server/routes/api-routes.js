@@ -1,8 +1,10 @@
 const express = require('express');
 const ItemsModel = require('../models/items-model');
 const RecipesModel = require('../models/recipes-model');
+const CartModel = require('../models/cart-model');
 const itemsController = require('../controllers/items-controller')(ItemsModel);
 const recipesController = require('../controllers/recipes-controller')(RecipesModel);
+const cartController = require('../controllers/cart-controller')(CartModel);
 
 /*  Routing
     ======================================================== */
@@ -23,6 +25,11 @@ const router = () => {
   router.route('/recipes/:id')
     .put(recipesController.put)
     .delete(recipesController.httpDelete);
+
+  router.route('/cart')
+    .get(cartController.get)
+    .post(cartController.post)
+    .delete(cartController.httpDelete);
 
   return router;
 };

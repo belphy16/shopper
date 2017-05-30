@@ -1,8 +1,11 @@
+<div style="float:right;">
+  <button md-button *ngIf="!isShopping" (click)="clearCart()" [disabled]="!cartItems.length"> Clear cart </button>
+  <button md-raised-button (click)="toggleShopMode()" [disabled]="!cartItems.length"> {{isShopping ? 'Edit cart' : 'Save'}} </button>
+</div>
 <span *ngIf="!isShopping">
   <button md-raised-button (click)="openItemsDialog()">Add items to cart</button>
   <button md-raised-button (click)="openRecipesDialog()">Add recipes to cart</button>
 </span>
-<button md-raised-button (click)="toggleShopMode()"> {{isShopping ? 'Edit cart' : 'Shop'}} </button>
 
 <md-list dense>
   <div *ngFor="let category of categories;">

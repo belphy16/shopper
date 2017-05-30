@@ -28,6 +28,7 @@ export class AddRecipeToCartComponent implements OnInit {
       .filter(recipe => recipe.count)
       .reduce((acc, curr) => {
         curr.items.map(item => {
+          item.count = item.count * curr.count;
           return item;
         });
         acc.push(...curr.items);
