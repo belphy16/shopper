@@ -13,6 +13,7 @@ const cartSchema = new Schema({
     name: String,
   },
   count: Number,
+  comment: String
 });
 
 module.exports = mongoose.model('Cartmodel', cartSchema);

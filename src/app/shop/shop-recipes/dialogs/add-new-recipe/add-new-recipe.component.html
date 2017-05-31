@@ -6,6 +6,7 @@
       <md-error *ngIf="addRecipeForm.controls.recipeName?.errors?.recipeExists">{{ addRecipeForm.controls.recipeName?.errors?.recipeExists }}</md-error>
       <md-error *ngIf="addRecipeForm.controls.recipeName?.errors?.required">Name required</md-error>
     </md-input-container>
+    <span *ngIf="!items.length"><br>You need to add items before you can add recipes</span>
     <md-list>
       <md-list-item *ngFor="let item of items;">
         {{ item.name }}

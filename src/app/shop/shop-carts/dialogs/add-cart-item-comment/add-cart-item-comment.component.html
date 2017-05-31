@@ -1,0 +1,10 @@
+<h1 md-dialog-title>Add comment</h1>
+<md-dialog-content>
+  <input type="text" [(ngModel)]="item.comment">
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button (click)= "clearComment()">Clear</button>
+  <button md-raised-button (click)= "confirm()">Add Comment</button>
+</md-dialog-actions>
+
+

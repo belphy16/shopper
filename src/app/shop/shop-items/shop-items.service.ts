@@ -41,6 +41,7 @@ export class ShopItemsService {
   }
 
   addItem(id: number, name: string, category: IShopItemCategory): Observable<IShopItem> {
+    console.log({ id, name, category });
     const headers = new Headers({'Content-Type': 'application/json'});
     const options = new RequestOptions({ headers })
     return this._http.post(this._url, { id, name, category }, options)

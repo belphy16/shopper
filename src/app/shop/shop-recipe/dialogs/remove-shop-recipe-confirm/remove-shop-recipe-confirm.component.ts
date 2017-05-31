@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
@@ -10,7 +10,7 @@ import { ShopRecipesService } from '../../../shop-recipes/shop-recipes.service';
   templateUrl: './remove-shop-recipe-confirm.component.html',
   styleUrls: ['./remove-shop-recipe-confirm.component.scss']
 })
-export class RemoveShopRecipeConfirmComponent implements OnInit {
+export class RemoveShopRecipeConfirmComponent implements OnInit, OnDestroy {
 
   constructor(private _shopRecipesService: ShopRecipesService,
                 @Inject(MD_DIALOG_DATA) public data: ShopRecipeComponent,
@@ -19,13 +19,16 @@ export class RemoveShopRecipeConfirmComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnDestroy() {
+    this.data.itemToBeRemoved = undefined;
+  }
+
   confirm() {
     this._shopRecipesService.removeItem(this.data.activeRecipe)
     .subscribe((recipeId: number) => this._dialogRef.close(true));
   }
 
   cancel() {
-    this.data.itemToBeRemoved = undefined;
     this._dialogRef.close(false);
   }
 

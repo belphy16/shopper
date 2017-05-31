@@ -12,10 +12,14 @@
     <h3 md-subheader>{{ category.name }}</h3>
     <md-divider></md-divider>
     <md-list-item *ngFor="let item of cartItemsPerCategory[category.name];" (click)="toggleAddedToCart(item)">
-      {{ item.name | titlecase }}
-      {{ item.count }}
+      {{ item.name | titlecase }}&nbsp;
+      {{ item.count }}&nbsp;
+      <span *ngIf="item.comment">({{ item.comment }})</span>
       <shared-spacer></shared-spacer>
       <div *ngIf="!isShopping">
+        <button class="comment-button" md-mini-fab (click)="openCommentsDialog(item.id)">
+          <md-icon>comment</md-icon>
+        </button>
         <button md-mini-fab (click)="decrementItem(item.id)" [disabled]="!item.count">
           <md-icon>remove_shopping_cart</md-icon>
         </button>
