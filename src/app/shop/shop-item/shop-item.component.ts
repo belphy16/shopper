@@ -6,10 +6,13 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { IShopItem } from './shop-item';
+import { IShopRecipe } from './../shop-recipe/shop-recipe';
 import { IShopItemCategory } from '../shop-item/shop-item-category';
 import { ShopItemsService } from '../shop-items/shop-items.service';
+import { ShopRecipesService } from '../shop-recipes/shop-recipes.service';
 
 import { RemoveShopItemConfirmComponent } from '../shop-item/dialogs/remove-shop-item-confirm/remove-shop-item-confirm.component';
+import { RemoveShopItemDenialComponent } from '../shop-item/dialogs/remove-shop-item-denial/remove-shop-item-denial.component';
 
 @Component({
   selector: 'app-shop-item',
@@ -22,6 +25,7 @@ export class ShopItemComponent implements OnInit {
   activeItem: IShopItem;
   itemToBeRemoved: IShopItem;
   items: IShopItem[] = [];
+  recipes: IShopRecipe[] = [];
   editItemForm: FormGroup;
   errorMessage: string;
   isEditing = false;
@@ -31,9 +35,17 @@ export class ShopItemComponent implements OnInit {
   constructor(private _router: Router,
                 private _route: ActivatedRoute,
                 public _dialogService: MdDialog,
+                private _shopRecipesService: ShopRecipesService,
                 private _shopItemsService: ShopItemsService) { }
 
   ngOnInit() {
+    this._shopRecipesService
+      .getItems()
+      .subscribe((recipes: IShopRecipe[]) => {
+        this.recipes = recipes;
+      },
+      error => this.errorMessage = <any>error);
+
     this._shopItemsService
       .getItems()
       .subscribe((items: IShopItem[]) => {
@@ -100,8 +112,21 @@ export class ShopItemComponent implements OnInit {
   }
 
   removeItem() {
-    this.itemToBeRemoved = this.activeItem;
-    this._router.navigate(['/items']);
+    const recipesWithItem = this.recipes.filter((recipe: IShopRecipe) => {
+      return recipe.items.find((item: IShopItem) => item.id === this.activeItem.id);
+    });
+    if (recipesWithItem.length) {
+      this._dialogService.open(RemoveShopItemDenialComponent, {
+        width: '600px',
+        data: {
+          message: `Cannot remove item ${this.activeItem.name} because it's part of the following recipes:`,
+          recipes: recipesWithItem
+        }
+      });
+    } else {
+      this.itemToBeRemoved = this.activeItem;
+      this._router.navigate(['/items']); // triggers canDeactivate
+    }
   }
 
   openRemoveConfirmationDialog(): MdDialogRef<RemoveShopItemConfirmComponent> {

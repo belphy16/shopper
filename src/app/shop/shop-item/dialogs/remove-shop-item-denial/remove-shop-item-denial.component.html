@@ -1,0 +1,12 @@
+<h1 md-dialog-title> {{ message }} </h1>
+<md-dialog-content>
+  <ul>
+    <li *ngFor="let recipe of recipes;">
+      {{ recipe.name }}
+    </li>
+  </ul>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button (click)= "agree()">Ok</button>
+</md-dialog-actions>
+

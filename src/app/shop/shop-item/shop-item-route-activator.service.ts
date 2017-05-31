@@ -26,5 +26,6 @@ export function checkRemovingItem(component: ShopItemComponent) {
   if (!component.itemToBeRemoved) {
     return true;
   }
+
   return component.openRemoveConfirmationDialog().afterClosed();
 }
